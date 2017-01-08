@@ -1,0 +1,105 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Mon Profil</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <figure class="user-card">
+<!--        <img class="img-responsive" src="http://a10b.ileas.fr/Lauriane.jpg" alt="Lauriane Delvaux" />-->
+<!--        <img class="img-responsive" src="assets/img/users/Lauriane.jpg" alt="Lauriane Delvaux" />-->
+        <img class="img-responsive" [src]="'assets/'+this.picture" [alt]="this.name" />
+        <figcaption> 
+<!--            <img src="http://a10b.ileas.fr/galop6.png" alt="Galop 6" class="galop" />-->
+            <img [src]="this.riding_level!==null ? 'assets/img/galops/galop'+this.riding_level+'.png' : 'assets/img/galops/galop1.png'" [alt]="'Galop '+this.riding_level" class="galop" />
+            <h2 class="user-name">{{ this.name }}<span class="user-licence">Licence : {{ this.licence }}</span></h2>
+            <p>{{ this.about }}</p>
+            <h4>Contact</h4>
+            <p>{{ this.address }}</p>
+<!--            <p>ego_idealis@hotmail.com</p>-->
+            <p>{{ this.email }}</p>
+            <p>{{ this.phone }}</p>
+            <a href="#" class="follow">Change Password</a>
+            <a href="#" class="info">Notifications</a>
+
+            <h3>Mes chevaux</h3>
+            <ion-segment [(ngModel)]="horses">
+                <ion-segment-button value="all">
+                    Tous
+                </ion-segment-button>
+                <ion-segment-button value="owned">
+                    Propriétaire
+                </ion-segment-button>
+                <ion-segment-button value="rented">
+                    Locataire
+                </ion-segment-button>
+            </ion-segment>
+            <div [ngSwitch]="horses">
+                <ion-list *ngSwitchCase="'all'">
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-2.jpg">
+                        </ion-thumbnail>
+                        <h2>Nazaretheteke</h2>
+                    </ion-item>
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-1.jpg">
+                        </ion-thumbnail>
+                        <h2>Oscar</h2>
+                    </ion-item>
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-4.jpg">
+                        </ion-thumbnail>
+                        <h2>Zoey</h2>
+                    </ion-item>
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-3.jpg">
+                        </ion-thumbnail>
+                        <h2>Otto</h2>
+                    </ion-item>
+                </ion-list>
+
+                <ion-list *ngSwitchCase="'owned'">
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-2.jpg">
+                        </ion-thumbnail>
+                        <h2>Nazaretheteke</h2>
+                    </ion-item>
+                </ion-list>
+
+                <ion-list *ngSwitchCase="'rented'">
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-1.jpg">
+                        </ion-thumbnail>
+                        <h2>Oscar</h2>
+                    </ion-item>
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-4.jpg">
+                        </ion-thumbnail>
+                        <h2>Zoey</h2>
+                    </ion-item>
+                    <ion-item>
+                        <ion-thumbnail item-left>
+                            <img src="assets/img/thumb-horse-3.jpg">
+                        </ion-thumbnail>
+                        <h2>Otto</h2>
+                    </ion-item>
+                </ion-list>
+            </div>
+        </figcaption>
+    </figure>
+    
+    
+
+
+<!--    <button ion-button secondary menuToggle>Toggle Menu</button>-->
+</ion-content>

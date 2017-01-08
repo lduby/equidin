@@ -1,0 +1,52 @@
+<ion-header>
+
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>ProfileUpdate</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form name="form" (ngSubmit)="profileForm.form.valid && updateProfile()" #profileForm="ngForm" novalidate>    
+        <ion-list>
+            <ion-item>
+                <ion-label color="primary" stacked>Prénom, Nom</ion-label>
+                <ion-input type="text" placeholder="Votre nom complet" [(ngModel)]="profileParams.name" name="name" required></ion-input>
+                <div *ngIf="profileForm.submitted && !profileParams.name.valid" class="help-block">Nom obligatoire</div>
+            </ion-item>
+
+            <ion-item>
+                <ion-label color="primary" stacked>Galop</ion-label>
+                <ion-input type="number" placeholder=""  [(ngModel)]="profileParams.riding_level" name="riding_level" required></ion-input>
+                <div *ngIf="profileForm.submitted && !profileParams.riding_level.valid" class="help-block">Galop obligatoire</div>
+            </ion-item>
+
+            <ion-item>
+                <ion-label color="primary" stacked>Email</ion-label>
+                <ion-input type="email" placeholder="{{this.email}}"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label color="primary" stacked>Téléphone</ion-label>
+                <ion-input type="tel" placeholder="" [(ngModel)]="profileParams.phone" name="phone" clearInput></ion-input>
+                <div *ngIf="profileForm.submitted && !profileParams.phone.valid" class="help-block">Téléphone non valide</div>
+            </ion-item>
+
+            <ion-item>
+                <ion-label color="primary" stacked>Adresse</ion-label>
+                <ion-input type="text" placeholder="Où vous contacter" [(ngModel)]="profileParams.address" name="address" clearInput></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label color="primary" stacked>Présentation</ion-label>
+                <ion-textarea placeholder="Un petit texte à propos de vous" [(ngModel)]="profileParams.about" name="about" clearInput></ion-textarea>
+            </ion-item>
+        </ion-list>
+        <button ion-button type="submit" block [disabled]="!profileForm.form.valid">Modifier mon profil</button>
+
+    </form>
+</ion-content>
