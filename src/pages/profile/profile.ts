@@ -35,12 +35,12 @@ constructor(public navCtrl: NavController, private navParams: NavParams, private
         console.log("Matching Profile: "+this.user_profile);
         if (data.id!=="") {
             console.log("Profile Info OK.");
-            this.name = data.name;
-            this.phone = data.phone;
-            this.about = data.about;
-            this.address = data.address;
-            this.picture = data.picture;
-            this.riding_level = data.riding_level;
+            this.name = data.attributes.name;
+            this.phone = data.attributes.phone;
+            this.about = data.attributes.about;
+            this.address = data.attributes.address;
+            this.picture = data.attributes.picture;
+            this.riding_level = data.attributes.riding_level;
             // store user details in local storage to keep user logged in between page refreshes
             //localStorage.setItem('currentUser', this.user);
         } else {

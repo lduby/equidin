@@ -26,11 +26,6 @@
             </ion-item>
 
             <ion-item>
-                <ion-label color="primary" stacked>Email</ion-label>
-                <ion-input type="email" placeholder="{{this.email}}"></ion-input>
-            </ion-item>
-
-            <ion-item>
                 <ion-label color="primary" stacked>Téléphone</ion-label>
                 <ion-input type="tel" placeholder="" [(ngModel)]="profileParams.phone" name="phone" clearInput></ion-input>
                 <div *ngIf="profileForm.submitted && !profileParams.phone.valid" class="help-block">Téléphone non valide</div>

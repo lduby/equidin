@@ -11,7 +11,7 @@
     <figure class="user-card">
 <!--        <img class="img-responsive" src="http://a10b.ileas.fr/Lauriane.jpg" alt="Lauriane Delvaux" />-->
 <!--        <img class="img-responsive" src="assets/img/users/Lauriane.jpg" alt="Lauriane Delvaux" />-->
-        <img class="img-responsive" [src]="'assets/'+this.picture" [alt]="this.name" />
+        <img class="img-responsive" [src]="this.picture!==null ? 'assets/'+this.picture : 'assets/img/profile-picture.jpg'" [alt]="this.name" />
         <figcaption> 
 <!--            <img src="http://a10b.ileas.fr/galop6.png" alt="Galop 6" class="galop" />-->
             <img [src]="this.riding_level!==null ? 'assets/img/galops/galop'+this.riding_level+'.png' : 'assets/img/galops/galop1.png'" [alt]="'Galop '+this.riding_level" class="galop" />

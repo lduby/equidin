@@ -17,8 +17,9 @@ export class Login {
     
     constructor(public navCtrl: NavController, private auth: AuthService) {
         console.log('Login Component');  
-        // Remove user from local storage to log user out
+// Remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('currentUserProfile');
     }
     
     public register() {
@@ -50,11 +51,11 @@ export class Login {
                     console.log(this.user);
                     if (data.licence!=="") {
                         console.log("Successfully signed in.");
+                        // store user details in local storage to keep user logged in between page refreshes
+                        localStorage.setItem('currentUser', this.user);
                         this.navCtrl.push(ProfilePage, {
                             licence: this.loginParams.licence
                         });
-                        // store user details in local storage to keep user logged in between page refreshes
-                        localStorage.setItem('currentUser', this.user);
                     } else {
                         console.log("Error ! No licence number in response.");
                     }

@@ -19,7 +19,8 @@ export class UserService {
     }
     
     getUserProfile(id: number) {
-        return this.http.get(this.apiUrl+'profiles/'+id, this.options).map((response: Response) => response.json()).catch(this.handleError);
+//        return this.http.get(this.apiUrl+'profiles/'+id, this.options).map((response: Response) => response.json()).catch(this.handleError);
+            return this.http.get(this.apiUrl+'profiles/'+id, this.options).map(this.extractData).catch(this.handleError);
     }
     
     /*getAll() {
@@ -31,16 +32,17 @@ export class UserService {
     }*/
 
     createProfile(profile: Profile) {
-            return this.http.post(this.apiUrl+'profiles', profile, this.options).map((response: Response) => response.json()).catch(this.handleError);
+            //return this.http.post(this.apiUrl+'profiles', profile, this.options).map((response: Response) => response.json()).catch(this.handleError);
+            return this.http.post(this.apiUrl+'profiles', profile, this.options).map(this.extractData).catch(this.handleError);
     }
 
     updateProfile(profile_id: number, profile: Profile) {
             return this.http.put(this.apiUrl+'profiles/' + profile_id, profile, this.options).map((response: Response) => response.json()).catch(this.handleError);
     }
     
-    updateUser(user: User) {
+    /*updateUser(user: User) {
             return this.http.put(this.apiUrl+'/api/users/' + user.id, user, this.options).map((response: Response) => response.json()).catch(this.handleError);
-    }
+    }*/
 
     /*delete(id: number) {
         return this.http.delete('/api/users/' + id, this.jwt()).map((response: Response) => response.json());
@@ -60,6 +62,11 @@ export class UserService {
     private handleError (error: Response) {
         console.error(error);
             return Observable.throw(error.json().error || ' error');
+    }
+    
+    private extractData(res: Response) {
+        let body = res.json();
+        return body.data || { };
     }
 
 }

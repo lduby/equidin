@@ -46,6 +46,7 @@ export class ProfileUpdatePage {
         // If the profile exists, it has been stored in localStorage
         let userprofile = JSON.parse(localStorage.getItem('currentUserProfile'));
         this.profile_id = userprofile;
+        console.log("Current user = "+ this.user.id + ":" + this.user.licence + ":" + this.user.email);
         if (userprofile !== null && userprofile!=="") {
             // The user profile already exists
             this.userSrv.updateProfile(this.profile_id,this.profile).subscribe(data => {  
@@ -53,27 +54,10 @@ export class ProfileUpdatePage {
                 console.log(updatedProfile);
                 if (data.name!=="") {
                     console.log("Success ! Profile updated.");
-                    if (this.profileParams.email!==this.email) {
-//                        this.user.id = this.user_id;
-//                        this.user.licence = this.licence;
-                        this.user.setEmail(this.profileParams.email);
-                        this.userSrv.updateUser(this.user).subscribe(data => {  
-                            let updatedUser = JSON.stringify(data);
-                            console.log(updatedUser);
-                            if (data.email===this.profileParams.email) {
-                                console.log("Success ! Email updated.");
-                                this.navCtrl.push(ProfilePage, {
-                                    licence: this.licence
-                                });
-                                } else {
-                                    console.log("Error ! Problem updating email.");
-                                }
-                            },
-                            error => {
-                                console.log(error);
-                            }
-                        );
-                    }
+                    // Redirecting to the Profile Page
+                    this.navCtrl.push(ProfilePage, {
+                        licence: this.user.licence
+                    });
                 } else {
                     console.log("Error ! Problem updating account.");
                 }
@@ -82,21 +66,23 @@ export class ProfileUpdatePage {
                 console.log(error);
             });
         } else {
-            this.userSrv.createProfile(this.profile).subscribe(data => {  
+            console.log("Current user = "+ this.user.id + ":" + this.user.licence + ":" + this.user.email);
+            this.userSrv.createProfile(this.profile).subscribe(data => { 
+                console.log("Response: "+data);
                 let createdProfile = JSON.stringify(data);
-                console.log(createdProfile);
-                if (data.name===this.profileParams.name) {
-                    console.log("Success ! Profile created.");
-                    // Remove user from local storage to log user out
-                    localStorage.removeItem('currentUser');
-                    // Storing the user name in the local storage 
+                console.log("Created Profile: "+createdProfile);
+                if (data.attributes.name===this.profileParams.name) {
+                    console.log("Success ! Profile "+ data.id +" created.");
+                    // Remove user profile from local storage to log user out
+                    localStorage.removeItem('currentUserProfile');
+                    // Storing the current user profile id in the local storage 
                     localStorage.setItem('currentUserProfile', data.id);
                     // Redirecting to the Profile Page
                     this.navCtrl.push(ProfilePage, {
-                        licence: this.licence
+                        licence: this.user.licence
                     });
                 } else {
-                    console.log("Error ! Problem updating email.");
+                    console.log("Error ! Problem creating profile.");
                 }
             },
             error => {
@@ -104,5 +90,7 @@ export class ProfileUpdatePage {
             });
         }
     }
+    
+    
 
 }
