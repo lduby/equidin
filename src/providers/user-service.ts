@@ -10,12 +10,15 @@ import { Profile } from '../models/profile'
 @Injectable()
 export class UserService {
 
-    apiUrl = "http://localhost:3000/";
+    apiUrl = "http://vks.ldjm.fr:3000/";
     headers = new Headers({ 'Content-Type': 'application/json' });
-    options = new RequestOptions({ headers: this.headers });
+    options: any;
 
     constructor(public http: Http) {
         console.log('Hello UserService Provider');
+        let token = localStorage.getItem("userToken");
+        this.headers.append('access-token', token);
+        this.options = new RequestOptions({ headers: this.headers });
     }
     
     getUserProfile(id: number) {

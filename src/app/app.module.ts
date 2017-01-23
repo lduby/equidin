@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Login } from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileUpdatePage } from '../pages/profile-update/profile-update';
 import { AuthService } from '../providers/auth-service';
@@ -14,7 +14,7 @@ import { User } from '../models/user';
 @NgModule({
   declarations: [
       MyApp,
-      Login,
+      LoginPage,
       ProfilePage,
       ProfileUpdatePage,
       Horse,
@@ -27,7 +27,7 @@ import { User } from '../models/user';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-      Login,
+      LoginPage,
       ProfilePage,
       ProfileUpdatePage,
       Horse,

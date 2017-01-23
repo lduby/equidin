@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { Login } from '../pages/login/login';
+import { AuthService } from '../providers/auth-service';
+import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileUpdatePage } from '../pages/profile-update/profile-update';
 import { Horse } from '../pages/horse/horse';
@@ -18,12 +19,12 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
 //  rootPage: any = Page1;
-    rootPage: any = Login;
+    rootPage: any = LoginPage;
     currentUser: User;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform) {
+constructor(public platform: Platform, private authSrv: AuthService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -32,6 +33,12 @@ export class MyApp {
         { title: 'Horse', component: Horse },
         { title: 'Search', component: SearchPage }
     ];
+      
+    // redirects to profile directly if user already logged in  
+    let user = JSON.parse(localStorage.getItem('currentUser'));  
+    if (user!=null) {
+        this.rootPage = ProfilePage;
+    } 
 
   }
 
@@ -49,4 +56,25 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+    
+    logout() {
+        let user = JSON.parse(localStorage.getItem('currentUser'));
+        // Remove user connection to the database
+        this.authSrv.signout(user.licence, user.id);
+        this.nav.setRoot(LoginPage);
+            /*.subscribe(data => {    
+                let answer = JSON.stringify(data);
+                console.log("Disconnection response: "+answer);
+                if (data.id!=="") {
+                    console.log("User disconnected.");
+                    this.nav.setRoot(LoginPage);
+                } else {
+                    console.log("Error ! Problem occured while disconnecting.");
+                }
+            },
+            error => {
+                console.log(error);
+            }
+        );*/
+    }
 }

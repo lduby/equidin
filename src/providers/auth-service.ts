@@ -9,33 +9,57 @@ import { User } from '../models/user';
 @Injectable()
 export class AuthService {
     
-    apiUrl = "http://localhost:3000/";
-
+    apiUrl = "http://vks.ldjm.fr:3000/";
+    response: Observable<Response>;
+    
     constructor(public http: Http) {
         console.log('Hello AuthService Provider');  
     }
      
     signin(licence: string, password: string)  {
+        // Defining request options
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
+        // Sending request 
         console.log("Service is asking for auth with "+licence+":"+password);
-        return this.http.post('http://localhost:3000/auth/sign_in', JSON.stringify({ licence: licence, password: password }), options)
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+        
+        return this.http.post(this.apiUrl+'auth/sign_in', JSON.stringify({ licence: licence, password: password }), options)
+            .map((response: Response) => { 
+                console.log('Headers: '+response.headers);
+                localStorage.setItem("userToken", response.headers["access-token"]); 
+                return response.json();
+            });
+//            .map((response: Response) => response.json());
+//            .catch(this.handleError);
     }
     
     signup(licence: string, email: string, password: string)  {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         console.log("Service is asking for registration with "+licence+":"+email+":"+password);
-        return this.http.post('http://localhost:3000/auth', JSON.stringify({ licence: licence, email: email, password: password }), options)
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+        return this.http.post(this.apiUrl+'auth', JSON.stringify({ licence: licence, email: email, password: password }), options)
+            .map((response: Response) => { 
+                console.log('Headers: '+response.headers);
+                localStorage.setItem("userToken", response.headers["access-token"]); 
+                return response.json();
+            });
+//            .map((response: Response) => response.json());
+//            .catch(this.handleError);
     }
     
-    signout(){
+    signout(licence: string, user: string){
+        let token = localStorage.getItem("userToken");
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('currentUserProfile');
+        localStorage.removeItem('userToken');
+        // remove user connection to the database
+        /*let headers= new Headers({ 'Content-Type': 'application/json' });
+        headers.append('access-token', token);
+        let options= new RequestOptions({headers:headers, method: "DELETE"});
+        console.log("Service is asking for database deconnection with "+licence+":"+user);
+        return this.http.delete(this.apiUrl+'auth', options)
+            .map((response: Response) => response.json());*/
     }
     
     private handleError (error: Response) {

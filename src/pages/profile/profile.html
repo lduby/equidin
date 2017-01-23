@@ -20,8 +20,8 @@
             <h4>Contact</h4>
             <p>{{ this.address }}</p>
 <!--            <p>ego_idealis@hotmail.com</p>-->
-            <p>{{ this.email }}</p>
-            <p>{{ this.phone }}</p>
+            <a [href]="'mailto:'+this.email"><i class="fa fa-envelope">&nbsp;{{ this.email }}</i></a>
+            <a [href]="'tel:'+this.phone"><i class="fa fa-phone">&nbsp;{{ this.phone }}</i></a>
             <a href="#" class="follow">Change Password</a>
             <a href="#" class="info">Notifications</a>
 
