@@ -44,7 +44,7 @@ export class LoginPage {
             },
             error => {
                 console.log(error);
-                this.showPopup("Error", error);
+                this.showPopup("Error", error._body);
             }
         );
     }
@@ -56,25 +56,27 @@ export class LoginPage {
 //        console.log(authResponse);
         this.auth.signin(this.loginParams.licence,this.loginParams.password).subscribe(
             response => {  
-                    console.log("Response: "+JSON.stringify(response));
-                    this.user = JSON.stringify(response.data);
-                    console.log(this.user);
-                    if (response.data.licence!=="") {
-                        this.createSuccess = true;
-                        console.log("Successfully signed in.");
-                        // store user details in local storage to keep user logged in between page refreshes
-                        localStorage.setItem('currentUser', this.user);
-                        this.navCtrl.setRoot(ProfilePage, {
-                            licence: this.loginParams.licence
-                        });
-                    } else {
-                        console.log("Error ! No licence number in response.");
-                        this.showPopup("Error !", "No licence number in response.");
-                    }
+                console.log("Response: "+JSON.stringify(response));
+                this.user = JSON.stringify(response.data);
+                let headers = JSON.stringify(response.headers);
+                console.log(this.user);
+                console.log(headers);
+                if (response.data.licence!=="") {
+                    this.createSuccess = true;
+                    console.log("Successfully signed in.");
+                    // store user details in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', this.user);
+                    this.navCtrl.setRoot(ProfilePage, {
+                        licence: this.loginParams.licence
+                    });
+                } else {
+                    console.log("Error ! No licence number in response.");
+                    this.showPopup("Error !", "No licence number in response.");
+                }
             },
             error => {
                 console.log(error);
-                this.showPopup("Error", error);
+                this.showPopup("Error", error._body);
             }
         );
     
