@@ -26,10 +26,10 @@ constructor(public navCtrl: NavController, private navParams: NavParams, private
     console.log("Licence = "+navParams.get("licence"));
     let user = JSON.parse(localStorage.getItem('currentUser'));
 //    console.log("Local Storage User Licence = "+user.data.licence);
-    console.log("Local Storage User Licence = "+user.licence);
-    this.licence = user.licence;
-    this.email = user.email;
-    this.user_id = user.id;
+    console.log("Local Storage User Licence = "+user.data.licence);
+    this.licence = user.data.licence;
+    this.email = user.data.email;
+    this.user_id = user.data.id;
     // Getting profile info
     this.userSrv.getUserProfile(this.user_id).subscribe(data => {    
         this.user_profile = JSON.stringify(data);

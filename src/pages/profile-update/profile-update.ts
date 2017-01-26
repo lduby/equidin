@@ -66,6 +66,7 @@ export class ProfileUpdatePage {
                 console.log(error);
             });
         } else {
+            // The user profile does not exist
             console.log("Current user = "+ this.user.id + ":" + this.user.licence + ":" + this.user.email);
             this.userSrv.createProfile(this.profile).subscribe(data => { 
                 console.log("Response: "+data);
@@ -77,6 +78,7 @@ export class ProfileUpdatePage {
                     localStorage.removeItem('currentUserProfile');
                     // Storing the current user profile id in the local storage 
                     localStorage.setItem('currentUserProfile', data.id);
+                    console.log('User = '+JSON.parse(localStorage.getItem('currentUser')).data.id);
                     // Redirecting to the Profile Page
                     this.navCtrl.push(ProfilePage, {
                         licence: this.user.licence
