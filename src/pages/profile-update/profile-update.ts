@@ -18,12 +18,13 @@ export class ProfileUpdatePage {
     profile_id: number = null;
     profileParams: any = {};
     profile: Profile = null;
+    currentProfile: Profile = null;
     user: User = null;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private userSrv: UserService) {
         let currentuser = JSON.parse(localStorage.getItem('currentUser'));
         console.log("Local Storage User Id = "+JSON.parse(localStorage.getItem('currentUser')).data.id);
-        this.user = new User(currentuser.data.id, currentuser.data.licence, currentuser.data.email);
+        this.user = new User(currentuser.data.id, currentuser.data.licence, currentuser.data.email,null);
 //        this.licence = user.data.licence;
 //        this.email = user.data.email;
 //        this.user_id = user.data.id;
@@ -45,7 +46,7 @@ export class ProfileUpdatePage {
 //        if (this.profileParams.about!=="") { this.profile.about = this.profileParams.about; }
         // If the profile exists, it has been stored in localStorage
         let userprofile = JSON.parse(localStorage.getItem('currentUserProfile'));
-        this.profile_id = userprofile;
+        this.profile_id = userprofile.id;
         console.log("Current user = "+ this.user.id + ":" + this.user.licence + ":" + this.user.email);
         if (userprofile !== null && userprofile!=="") {
             // The user profile already exists
@@ -54,6 +55,8 @@ export class ProfileUpdatePage {
                 console.log(updatedProfile);
                 if (data.name!=="") {
                     console.log("Success ! Profile updated.");
+                    this.currentProfile = new Profile(this.profile_id, data.name, data.phone,data.address,data.about,data.picture,data.riding_level*1,this.user.id*1);
+                    localStorage.setItem('currentUserProfile', JSON.stringify(this.currentProfile));
                     // Redirecting to the Profile Page
                     this.navCtrl.push(ProfilePage, {
                         licence: this.user.licence
@@ -72,12 +75,13 @@ export class ProfileUpdatePage {
                 console.log("Response: "+data);
                 let createdProfile = JSON.stringify(data);
                 console.log("Created Profile: "+createdProfile);
+                this.currentProfile = new Profile(data.id, data.attributes.name, data.attributes.phone,data.attributes.address,data.attributes.about,data.attributes.picture,data.attributes.riding_level*1,this.user.id*1);
                 if (data.attributes.name===this.profileParams.name) {
                     console.log("Success ! Profile "+ data.id +" created.");
                     // Remove user profile from local storage to log user out
                     localStorage.removeItem('currentUserProfile');
-                    // Storing the current user profile id in the local storage 
-                    localStorage.setItem('currentUserProfile', data.id);
+                    // Storing the current user profile in the local storage 
+                    localStorage.setItem('currentUserProfile', JSON.stringify(this.currentProfile));
                     console.log('User = '+JSON.parse(localStorage.getItem('currentUser')).data.id);
                     // Redirecting to the Profile Page
                     this.navCtrl.push(ProfilePage, {

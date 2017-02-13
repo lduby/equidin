@@ -51,7 +51,11 @@ export class AuthService {
         let token = localStorage.getItem("userToken");
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('currentUserLicence');
+        localStorage.removeItem('currentUserMail');
         localStorage.removeItem('currentUserProfile');
+        localStorage.removeItem('currentUserName');
+        localStorage.removeItem('currentUserThumb');
         localStorage.removeItem('userToken');
         // remove user connection to the database
         /*let headers= new Headers({ 'Content-Type': 'application/json' });

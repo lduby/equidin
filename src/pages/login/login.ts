@@ -33,7 +33,9 @@ export class LoginPage {
                     this.createSuccess = true;
                     console.log("Success ! Account created for licence "+this.registrationParams.licence);
                     // store user details in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', this.user);
+                    localStorage.setItem('currentUser', response.data.id);
+                    localStorage.setItem('currentUserLicence', response.data.licence);
+                    // redirects to Profile Page
                     this.navCtrl.setRoot(ProfileUpdatePage, {
                         licence: this.registrationParams.licence
                     });
@@ -65,7 +67,10 @@ export class LoginPage {
                     this.createSuccess = true;
                     console.log("Successfully signed in.");
                     // store user details in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', this.user);
+                    localStorage.setItem('currentUser', response.data.id);
+                    localStorage.setItem('currentUserLicence', response.data.licence);
+                    localStorage.setItem('currentUserMail', response.data.email);
+                    // redirects to Profile Page
                     this.navCtrl.setRoot(ProfilePage, {
                         licence: this.loginParams.licence
                     });

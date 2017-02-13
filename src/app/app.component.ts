@@ -10,6 +10,7 @@ import { Horse } from '../pages/horse/horse';
 import { SearchPage } from '../pages/search/search';
 import { Page2 } from '../pages/page2/page2';
 import { User } from '../models/user';
+import { Profile } from '../models/profile';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class MyApp {
 //  rootPage: any = Page1;
     rootPage: any = LoginPage;
     currentUser: User;
+    currentUserName: string = "";
 
   pages: Array<{title: string, component: any}>;
 
@@ -37,6 +39,14 @@ constructor(public platform: Platform, private authSrv: AuthService) {
     // redirects to profile directly if user already logged in  
     let user = JSON.parse(localStorage.getItem('currentUser'));  
     if (user!=null) {
+        let user_id = +localStorage.getItem('currentUser');
+        this.currentUser = new User(user_id,localStorage.getItem('currentLicence'),localStorage.getItem('currentMail'), null);
+        let profile = JSON.parse(localStorage.getItem('currentUserProfile'));
+//        if (profile!=null) {
+//            this.currentUser.setProfile(new Profile(profile,profile.name,profile.phone,profile.address,profile.about,profile.picture,profile.riding_level*1,profile.user_id*1))
+//        }
+        this.currentUserName = localStorage.getItem('currentUserName');
+    //this.currentUserStr = localStorage.getItem('currentUserProfile'); // Ne recupère que le numéro du profil
         this.rootPage = ProfilePage;
     } 
 
