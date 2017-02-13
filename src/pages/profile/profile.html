@@ -12,11 +12,11 @@
         <img class="img-responsive" [src]="this.user_profile.picture!=='' ? 'assets/'+this.user_profile.picture : 'assets/img/profile-picture.jpg'" [alt]="this.user_profile.name" />
         <figcaption> 
             <img [src]="this.user_profile.riding_level!==null ? 'assets/img/galops/galop'+this.user_profile.riding_level+'.png' : 'assets/img/galops/galop1.png'" [alt]="'Galop '+this.user_profile.riding_level" class="galop" />
-            <h2 class="user-name">{{ this.user_profile.name }}<span class="user-licence">Licence : {{ this.user_profile.licence }}</span></h2>
+            <h2 class="user-name">{{ this.user_profile.name }}<span class="user-licence">Licence : {{ this.current_user.licence }}</span></h2>
             <p>{{ this.user_profile.about }}</p>
             <h4>Contact</h4>
             <p>{{ this.user_profile.address }}</p>
-            <a [href]="'mailto:'+this.email"><i class="fa fa-envelope">&nbsp;{{ this.email }}</i></a>
+            <a [href]="'mailto:'+this.current_user.email"><i class="fa fa-envelope">&nbsp;{{ this.current_user.email }}</i></a>
             <a [href]="'tel:'+this.user_profile.phone"><i class="fa fa-phone">&nbsp;{{ this.user_profile.phone }}</i></a>
             <a href="#" class="follow">Change Password</a>
             <a href="#" class="info">Notifications</a>

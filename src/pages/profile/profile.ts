@@ -41,7 +41,7 @@ export class ProfilePage {
                         console.log("Profile OK");
                         // store user details in local storage to keep user logged in between page refreshes
                         localStorage.setItem('currentUserName', this.user_profile.name);
-                        this.current_user = new User(this.user_id, this.email, this.licence, this.user_profile);
+                        this.current_user = new User(this.user_id, this.licence, this.email, this.user_profile);
                         resolve(this.current_user);
                     }
                     else {
