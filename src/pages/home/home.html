@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Accueil</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row *ngFor="let trio of getTriples()">
+            <ion-col *ngFor="let item of trio">
+                <ion-item *ngIf="item!=null">
+                    <ion-thumbnail>
+                        <img [src]="item.picture">
+                    </ion-thumbnail>
+                    {{ item.name }}
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

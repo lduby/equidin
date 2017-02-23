@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
-import { Horse } from '../horse/horse';
+import { HorsePage } from '../horse/horse';
 
 @Component({
   selector: 'page-search',

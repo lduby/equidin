@@ -48,6 +48,7 @@ export class AuthService {
     }
     
     signout(licence: string, user: string){
+        console.log("Removing stored information");
         let token = localStorage.getItem("userToken");
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

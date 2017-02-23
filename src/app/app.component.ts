@@ -6,9 +6,9 @@ import { AuthService } from '../providers/auth-service';
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileUpdatePage } from '../pages/profile-update/profile-update';
-import { Horse } from '../pages/horse/horse';
+import { HorsePage } from '../pages/horse/horse';
 import { SearchPage } from '../pages/search/search';
-import { Page2 } from '../pages/page2/page2';
+import { HomePage } from '../pages/home/home';
 import { User } from '../models/user';
 import { Profile } from '../models/profile';
 
@@ -27,28 +27,36 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
 constructor(public platform: Platform, private authSrv: AuthService) {
+    console.log("App constructor");
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
+        { title: 'Home', component: HomePage },
         { title: 'Profile', component: ProfilePage },
-        { title: 'Horse', component: Horse },
         { title: 'Search', component: SearchPage }
     ];
       
     // redirects to profile directly if user already logged in  
     let user = JSON.parse(localStorage.getItem('currentUser'));  
-    if (user!=null) {
+    if (user!==null) {
+        console.log("User already connected");
         let user_id = +localStorage.getItem('currentUser');
         this.currentUser = new User(user_id,localStorage.getItem('currentLicence'),localStorage.getItem('currentMail'), null);
         let profile = JSON.parse(localStorage.getItem('currentUserProfile'));
-//        if (profile!=null) {
+        console.log("User profile: "+profile);
+//        if (profile!==null) {
 //            this.currentUser.setProfile(new Profile(profile,profile.name,profile.phone,profile.address,profile.about,profile.picture,profile.riding_level*1,profile.user_id*1))
 //        }
         this.currentUserName = localStorage.getItem('currentUserName');
     //this.currentUserStr = localStorage.getItem('currentUserProfile'); // Ne recupère que le numéro du profil
-        this.rootPage = ProfilePage;
+        //this.rootPage = ProfilePage;
+        this.rootPage = HomePage;
     } 
+    else {
+        console.log("No user connected");
+        this.rootPage = LoginPage;
+    }
 
   }
 

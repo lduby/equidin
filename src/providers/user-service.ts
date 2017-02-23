@@ -11,13 +11,14 @@ import { Profile } from '../models/profile'
 export class UserService {
 
     apiUrl = "http://vks.ldjm.fr:3000/";
+    response: Observable<Response>;
     headers = new Headers({ 'Content-Type': 'application/json' });
     options: any;
 
     constructor(public http: Http) {
         console.log('Hello UserService Provider');
         let token = localStorage.getItem("userToken");
-        this.headers.append('access-token', token);
+        //this.headers.append('access-token', token);
         this.options = new RequestOptions({ headers: this.headers });
     }
     

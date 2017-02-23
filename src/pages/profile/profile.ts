@@ -4,7 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { UserService } from '../../providers/user-service';
 import { Profile } from '../../models/profile';
 import { User } from '../../models/user';
-import { Horse } from '../horse/horse';
+import { HorsePage } from '../horse/horse';
 
 @Component({
     selector: 'page-profile',

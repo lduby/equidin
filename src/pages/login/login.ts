@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
+import { UserService } from '../../providers/user-service';
+import { HomePage } from '../../pages/home/home';
+import { Profile } from '../../models/profile';
 import { ProfilePage } from '../../pages/profile/profile';
 import { ProfileUpdatePage } from '../../pages/profile-update/profile-update';
 
@@ -15,11 +18,8 @@ export class LoginPage {
     registrationParams: any = {};
     user = "";
     
-    constructor(public navCtrl: NavController, private auth: AuthService, private alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private auth: AuthService, private userSrv: UserService, private alertCtrl: AlertController) {
         console.log('Login Component');  
-// Remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('currentUserProfile');
     }
     
     public register() {
@@ -35,6 +35,7 @@ export class LoginPage {
                     // store user details in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', response.data.id);
                     localStorage.setItem('currentUserLicence', response.data.licence);
+                    localStorage.setItem('currentUserMail', response.data.email);
                     // redirects to Profile Page
                     this.navCtrl.setRoot(ProfileUpdatePage, {
                         licence: this.registrationParams.licence
@@ -70,10 +71,34 @@ export class LoginPage {
                     localStorage.setItem('currentUser', response.data.id);
                     localStorage.setItem('currentUserLicence', response.data.licence);
                     localStorage.setItem('currentUserMail', response.data.email);
-                    // redirects to Profile Page
-                    this.navCtrl.setRoot(ProfilePage, {
-                        licence: this.loginParams.licence
+                    // gets user profile
+                    let userid = response.data.id;
+                    this.userSrv.getUserProfile(userid).subscribe(data => { 
+                        if (data.id!=="") {
+                            console.log("Profile Info for User "+userid);
+                            console.log(data.id + ":" + data.attributes.name + ":" + data.attributes.phone + ":" + data.attributes.address + ":" + data.attributes.about + ":" + data.attributes.picture + ":" +        data.attributes.riding_level + ":" + userid);
+                            let user_profile = new Profile(data.id,data.attributes.name,data.attributes.phone,data.attributes.address,data.attributes.about,data.attributes.picture, data.attributes.riding_level, userid);
+                            if (user_profile !== null) {
+                                console.log("Profile OK");
+                                // store profile details in local storage to keep user logged in between page refreshes
+                                localStorage.setItem('currentUserName', user_profile.name);
+                                localStorage.setItem('currentUserProfile', JSON.stringify(user_profile));
+                            }
+                            else {
+                                console.log("Profile NOT OK");
+                            }
+                        } else {
+                            console.log("Error ! No profile in response.");
+                        }
+                    },
+                    error => {
+                        console.log(error);
                     });
+                    // redirects to Profile Page
+                    /*this.navCtrl.setRoot(ProfilePage, {
+                        licence: this.loginParams.licence
+                    });*/
+                    this.navCtrl.setRoot(HomePage);
                 } else {
                     console.log("Error ! No licence number in response.");
                     this.showPopup("Error !", "No licence number in response.");
