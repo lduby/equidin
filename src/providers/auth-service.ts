@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -12,7 +13,7 @@ export class AuthService {
     apiUrl = "http://vks.ldjm.fr:3000/";
     response: Observable<Response>;
     
-    constructor(public http: Http) {
+constructor(public http: Http, private events: Events) {
         console.log('Hello AuthService Provider');  
     }
      
@@ -58,6 +59,8 @@ export class AuthService {
         localStorage.removeItem('currentUserName');
         localStorage.removeItem('currentUserThumb');
         localStorage.removeItem('userToken');
+        // publish signout event
+        this.events.publish('user:logout');
         // remove user connection to the database
         /*let headers= new Headers({ 'Content-Type': 'application/json' });
         headers.append('access-token', token);

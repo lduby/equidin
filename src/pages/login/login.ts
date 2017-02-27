@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { NavController, AlertController } from 'ionic-angular';
+import { Events, NavController, AlertController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { UserService } from '../../providers/user-service';
 import { HomePage } from '../../pages/home/home';
+import { User } from '../../models/user';
 import { Profile } from '../../models/profile';
 import { ProfilePage } from '../../pages/profile/profile';
 import { ProfileUpdatePage } from '../../pages/profile-update/profile-update';
@@ -18,7 +19,7 @@ export class LoginPage {
     registrationParams: any = {};
     user = "";
     
-    constructor(public navCtrl: NavController, private auth: AuthService, private userSrv: UserService, private alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private auth: AuthService, private userSrv: UserService, private alertCtrl: AlertController, private events: Events) {
         console.log('Login Component');  
     }
     
@@ -83,6 +84,7 @@ export class LoginPage {
                                 // store profile details in local storage to keep user logged in between page refreshes
                                 localStorage.setItem('currentUserName', user_profile.name);
                                 localStorage.setItem('currentUserProfile', JSON.stringify(user_profile));
+                                this.events.publish('user:login',new User(userid,response.data.licence,response.data.email, user_profile));
                             }
                             else {
                                 console.log("Profile NOT OK");

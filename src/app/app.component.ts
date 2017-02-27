@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Events, MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { AuthService } from '../providers/auth-service';
@@ -26,7 +26,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-constructor(public platform: Platform, private authSrv: AuthService) {
+constructor(public platform: Platform, private authSrv: AuthService, public menu: MenuController, private events: Events) {
     console.log("App constructor");
     this.initializeApp();
 
@@ -57,6 +57,8 @@ constructor(public platform: Platform, private authSrv: AuthService) {
         console.log("No user connected");
         this.rootPage = LoginPage;
     }
+    
+    this.listenToLoginEvents();
 
   }
 
@@ -75,11 +77,38 @@ constructor(public platform: Platform, private authSrv: AuthService) {
     this.nav.setRoot(page.component);
   }
     
-    logout() {
+  listenToLoginEvents() {
+      this.events.subscribe('user:login', (user) => {
+        console.log("Event received for login the user "+user.id);
+          this.updateMenu(true, user);
+      });
+    this.events.subscribe('user:signup', (user) => {
+        console.log("Event received for signup the user "+user.id);
+          this.updateMenu(true,user);
+      });
+    this.events.subscribe('user:logout', () => {
+        console.log("Event received for logout the current user");
+          this.updateMenu(false,null);
+      });
+  }
+    
+updateMenu(loggedIn: boolean, user: User) {
+        if (loggedIn) { 
+            this.currentUserName = localStorage.getItem('currentUserName');
+            this.currentUser = user;
+        } else {
+            this.currentUserName = "";
+            this.currentUser = new User(0,"","",new Profile(0,"","","","","",0,0));
+        }
+        
+    }
+    
+  logout() {
         let user = JSON.parse(localStorage.getItem('currentUser'));
         // Remove user connection to the database
         this.authSrv.signout(user.licence, user.id);
         this.nav.setRoot(LoginPage);
+        this.menu.close();
             /*.subscribe(data => {    
                 let answer = JSON.stringify(data);
                 console.log("Disconnection response: "+answer);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Events, NavController, NavParams } from 'ionic-angular';
 import { UserService } from '../../providers/user-service';
 import { ProfilePage } from '../../pages/profile/profile';
 import { HomePage } from '../../pages/home/home';
@@ -22,7 +22,7 @@ export class ProfileUpdatePage {
     currentProfile: Profile = null;
     user: User = null;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private userSrv: UserService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private userSrv: UserService, private events: Events) {
         this.licence = localStorage.getItem('currentUserLicence');
         this.email = localStorage.getItem('currentUserMail');
         this.user_id = +localStorage.getItem('currentUser');
@@ -92,6 +92,8 @@ export class ProfileUpdatePage {
                     localStorage.setItem('currentUserName', this.currentProfile.name);
 //                    let user = JSON.parse(localStorage.getItem('currentUser'))
 //                    console.log('User = '+user.data.id);
+                    // Publishing the correct registration of the user
+                    this.events.publish('user:signup',new User(this.user.id*1,this.user.licence,this.user.email, this.currentProfile));
                     // Redirecting to the Profile Page
                     /*this.navCtrl.push(ProfilePage, {
                         licence: this.user.licence
