@@ -11,7 +11,7 @@
     <ion-grid>
         <ion-row *ngFor="let trio of getTriples()">
             <ion-col *ngFor="let item of trio">
-                <ion-item *ngIf="item!=null">
+                <ion-item *ngIf="item!=null" (click)="goToHorseDetails(item)">
                     <ion-thumbnail>
                         <img [src]="item.picture">
                     </ion-thumbnail>

@@ -57,8 +57,9 @@ export class HomePage {
         return horses;
     }
 
-    itemTapped(event, item) {
+    goToHorseDetails(item) {
         // That's right, we're pushing to ourselves!
+        console.log("horse chosen : "+item.name);
         this.navCtrl.push(HorsePage, {
           horse: item
         });
